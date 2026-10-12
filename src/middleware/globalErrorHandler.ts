@@ -1,10 +1,17 @@
-import type { Response } from "express";
-import httpStatus from "http-status";
+import type { ErrorRequestHandler } from "express";
 
-export const globalErrorHandler = (err: Error, res: Response) => {
-	res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
-		success: false,
-		message: err.message,
-		error: err,
-	});
+const globalErrorHandler: ErrorRequestHandler = (
+  err,
+  req,
+  res,
+  next
+) => {
+  const statusCode = err.statusCode || 500;
+
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal Server Error",
+  });
 };
+
+export default globalErrorHandler;

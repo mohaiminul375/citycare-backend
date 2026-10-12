@@ -1,5 +1,39 @@
-import express, { type Application } from "express";
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express, { Application, Request, Response } from 'express'
+import httpStatus from "http-status"
+import config from './config'
+import { AuthRoutes } from './module/auth/auth.route'
+import { notFound } from './middleware/notFound'
+import  globalErrorHandler  from './middleware/globalErrorHandler'
 
-const app: Application = express();
+const app: Application = express()
 
-export default app;
+app.use(
+    cors({
+        origin: config.frontend_url,
+        credentials: true,
+    }),
+)
+
+// Enable URL-encoded form data parsing
+app.use(express.urlencoded({ extended: true }))
+
+// Middleware to parse JSON bodies
+app.use(express.json())
+app.use(cookieParser())
+
+app.use('/api/v1/auth', AuthRoutes)
+
+// Basic route
+app.get('/', async (req: Request, res: Response) => {
+    res.status(httpStatus.OK).json({
+        success: true,
+        message: 'Welcome to city care System Backend',
+    })
+})
+
+app.use(globalErrorHandler)
+app.use(notFound)
+
+export default app
