@@ -5,6 +5,22 @@ const createCategoryToDB = async (payload: { category: string }) => {
     return newCategory
 }
 
+const getAllCategoryFromDB = async () => {
+    const result = await prisma.category.findMany();
+    return result
+}
+
+
+const deleteCategoryFromDB = async (id: string) => {
+    const result = await prisma.category.delete({
+        where: {
+            id
+        }
+    })
+    return result;
+}
 export const categoriesService = {
-    createCategoryToDB
+    createCategoryToDB,
+    getAllCategoryFromDB,
+    deleteCategoryFromDB
 }
