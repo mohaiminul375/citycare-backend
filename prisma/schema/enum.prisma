@@ -1,7 +1,8 @@
 enum UserRole {
     CITIZEN
     ADMIN
-    MANAGER
+    CITY_ADMIN
+    DEPARTMENT_STAFF
 }
 
 enum UserStatus {

@@ -107,12 +107,43 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 });
 // admin
 const AllUser = catchAsync(async (req: Request, res: Response) => {
+	const result = await AuthService.AllUserFromDB();
+	sendResponse(res, {
+		success: true,
+		statusCode: httpStatus.OK,
+		message: "User list data retrieved successfully",
+		data: result,
+	});
+})
 
+const updateRole = catchAsync(async (req: Request, res: Response) => {
+	const id = req.params.id;
+	const updatedRole = req.body;
+	const result = await AuthService.updateRoleFromDB(id as string, updatedRole)
+	sendResponse(res, {
+		success: true,
+		statusCode: httpStatus.OK,
+		message: "Role updated successfully",
+		data: result,
+	});
+})
+const blockUser = catchAsync(async (req: Request, res: Response) => {
+	const id = req.params.id;
+	const updatedStatus = req.body;
+	const result = await AuthService.blockUserFromDB(id as string, updatedStatus)
+	sendResponse(res, {
+		success: true,
+		statusCode: httpStatus.OK,
+		message: "user Blocked successfully",
+		data: result,
+	});
 })
 export const AuthController = {
 	registerPatient,
 	loginUser,
 	getMe,
 	refreshToken,
-	AllUser
+	AllUser,
+	updateRole,
+	blockUser
 };

@@ -176,13 +176,39 @@ const refreshToken = async (token: string) => {
 };
 // admin
 const AllUserFromDB = async () => {
-	const users = await prisma.user.findMany();
+	const users = await prisma.user.findMany({
+		omit: {
+			password: true,
+		},
+	});
 	return users;
+}
+const updateRoleFromDB = async (id: string, updateRole: { role: string }) => {
+	const user = await prisma.user.update({
+		where: { id },
+		data: {
+			role: updateRole.role as UserRole
+		}
+	}
+	)
+	return user;
+}
+const blockUserFromDB = async (id: string, updateStatus: { status: string }) => {
+	const user = await prisma.user.update({
+		where: { id },
+		data: {
+			status: updateStatus.status as UserStatus
+		}
+	}
+	)
+	return user;
 }
 export const AuthService = {
 	registerPatient,
 	loginUser,
 	getMe,
 	refreshToken,
-	AllUserFromDB
+	AllUserFromDB,
+	updateRoleFromDB,
+	blockUserFromDB
 };
