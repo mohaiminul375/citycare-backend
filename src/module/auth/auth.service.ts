@@ -1,13 +1,12 @@
 import bcrypt from "bcryptjs";
-import { JwtPayload, SignOptions } from "jsonwebtoken";
+import type { JwtPayload, SignOptions } from "jsonwebtoken";
 import { UserRole, UserStatus } from "../../../generated/prisma/enums";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { jwtUtils } from "../../utils/jwt";
-import {
+import type {
 	ILoginUserPayload,
 	IRegisterPatientPayload,
-	IRequestUser,
 } from "./auth.interface";
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
@@ -22,7 +21,10 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
 		throw new Error("User with this email already exists");
 	}
 
-	const hashedPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
+	const hashedPassword = await bcrypt.hash(
+		password,
+		Number(config.bcrypt_salt_rounds),
+	);
 
 	const createdUser = await prisma.user.create({
 		data: {
@@ -79,15 +81,17 @@ const loginUser = async (payload: ILoginUserPayload) => {
 		throw new Error("User is blocked");
 	}
 
-
-	const isPasswordMatched = await bcrypt.compare(password, user.password as string);
+	const isPasswordMatched = await bcrypt.compare(
+		password,
+		user.password as string,
+	);
 
 	if (!isPasswordMatched) {
 		throw new Error("Invalid credentials");
 	}
 
 	const jwtPayload = {
-		userId: user.id,
+		id: user.id,
 		name: user.name,
 		email: user.email,
 		role: user.role,
@@ -111,21 +115,15 @@ const loginUser = async (payload: ILoginUserPayload) => {
 	};
 };
 
-const getMe = async (user: IRequestUser) => {
-	const isUserExists = await prisma.user.findUnique({
-		where: {
-			id: user.userId,
-		},
+const getMe = async (id: string) => {
+	console.log(id);
+	const profile = await prisma.user.findUniqueOrThrow({
+		where: { id },
 		omit: {
 			password: true,
 		},
 	});
-
-	if (!isUserExists) {
-		throw new Error("User not found");
-	}
-
-	return isUserExists;
+	return profile;
 };
 
 const refreshToken = async (token: string) => {
@@ -176,10 +174,15 @@ const refreshToken = async (token: string) => {
 		refreshToken,
 	};
 };
-
+// admin
+const AllUserFromDB = async () => {
+	const users = await prisma.user.findMany();
+	return users;
+}
 export const AuthService = {
 	registerPatient,
 	loginUser,
 	getMe,
 	refreshToken,
+	AllUserFromDB
 };
