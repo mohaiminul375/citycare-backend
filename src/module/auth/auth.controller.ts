@@ -4,9 +4,10 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { AuthService } from "./auth.service";
 
-const registerPatient = catchAsync(async (req: Request, res: Response) => {
+
+const registerUser = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
-	const result = await AuthService.registerPatient(payload);
+	const result = await AuthService.registerUserToDB(payload);
 
 	const { accessToken, refreshToken, user } = result;
 
@@ -37,7 +38,7 @@ const registerPatient = catchAsync(async (req: Request, res: Response) => {
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
-	const result = await AuthService.loginUser(payload);
+	const result = await AuthService.loginUserToDB(payload);
 	const { accessToken, refreshToken } = result;
 
 	res.cookie("accessToken", accessToken, {
@@ -66,7 +67,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
 	console.log(req.user);
-	const result = await AuthService.getMe(req.user?.id as string);
+	const result = await AuthService.getMeFromDB(req.user?.id as string);
 	sendResponse(res, {
 		success: true,
 		statusCode: httpStatus.OK,
@@ -169,7 +170,7 @@ const googleLogin = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 export const AuthController = {
-	registerPatient,
+	registerUser,
 	loginUser,
 	getMe,
 	refreshToken,

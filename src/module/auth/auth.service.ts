@@ -16,7 +16,7 @@ import type {
 import type { TokenPayload } from "google-auth-library";
 import { googleClient } from "../../lib/googleAuth";
 
-const registerPatient = async (payload: IRegisterPatientPayload) => {
+const registerUserToDB = async (payload: IRegisterPatientPayload) => {
 	const { name, password } = payload;
 	const email = payload.email.trim().toLowerCase();
 
@@ -75,7 +75,7 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
 	};
 };
 
-const loginUser = async (payload: ILoginUserPayload) => {
+const loginUserToDB = async (payload: ILoginUserPayload) => {
 	const { password } = payload;
 	const email = payload.email.trim().toLowerCase();
 
@@ -129,7 +129,7 @@ const loginUser = async (payload: ILoginUserPayload) => {
 	};
 };
 
-const getMe = async (id: string) => {
+const getMeFromDB = async (id: string) => {
 	const profile = await prisma.user.findUniqueOrThrow({
 		where: { id },
 		omit: {
@@ -332,9 +332,9 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	};
 };
 export const AuthService = {
-	registerPatient,
-	loginUser,
-	getMe,
+	registerUserToDB,
+	loginUserToDB,
+	getMeFromDB,
 	refreshToken,
 	AllUserFromDB,
 	updateRoleFromDB,
