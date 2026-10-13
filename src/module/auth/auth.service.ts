@@ -1,13 +1,16 @@
 import bcrypt from "bcryptjs";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
-import { UserRole, UserStatus } from "../../../generated/prisma/enums";
+import { AuthProvider, UserRole, UserStatus } from "../../../generated/prisma/enums";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { jwtUtils } from "../../utils/jwt";
 import type {
+	IGoogleLoginPayload,
 	ILoginUserPayload,
 	IRegisterPatientPayload,
 } from "./auth.interface";
+import { OAuth2Client, TokenPayload } from "google-auth-library";
+import { googleClient } from "../../lib/googleAuth";
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
 	const { name, password } = payload;
@@ -116,7 +119,6 @@ const loginUser = async (payload: ILoginUserPayload) => {
 };
 
 const getMe = async (id: string) => {
-	console.log(id);
 	const profile = await prisma.user.findUniqueOrThrow({
 		where: { id },
 		omit: {
@@ -203,6 +205,90 @@ const blockUserFromDB = async (id: string, updateStatus: { status: string }) => 
 	)
 	return user;
 }
+
+const googleLogin = async (payload: IGoogleLoginPayload) => {
+
+	// const result = googleClient.verifyIdToken({
+	// 	idToken: payload.idToken
+	// })
+
+	// const googleInfo = (await result).getPayload()
+
+	// googleInfo.
+	console.log(payload,)
+	let googleIdTokenPayload: TokenPayload | null | undefined = null;
+	try {
+		const ticket = await googleClient.verifyIdToken({
+			idToken: payload.idToken,
+			audience: config.google_client_id
+		})
+		console.log(ticket, "ticket")
+		googleIdTokenPayload = ticket.getPayload()
+	} catch (error) {
+		console.log("Google id token verify failed!", error)
+		throw new Error("Invalid or expired google id token")
+	}
+
+	if (!googleIdTokenPayload) {
+		throw new Error("Invalid or expired google id token")
+	}
+
+	if (!googleIdTokenPayload.email) {
+		throw new Error("google email not found")
+	}
+	if (!googleIdTokenPayload.name) {
+		throw new Error("google name not found")
+	}
+	const isUserExistedWithGoogleAuth = await prisma.user.findUnique({
+		where: {
+			email: googleIdTokenPayload.email,
+			googleId: googleIdTokenPayload.sub
+		}
+	})
+	let user = isUserExistedWithGoogleAuth
+	if (!user) {
+		user = await prisma.user.create({
+			data: {
+				name: googleIdTokenPayload.name,
+				email: googleIdTokenPayload.email,
+				googleId: googleIdTokenPayload.sub,
+				role: UserRole.CITIZEN,
+				authProvider: AuthProvider.GOOGLE,
+				emailVerified: true,
+				profile: {
+					create: {
+						name: googleIdTokenPayload.name,
+						email: googleIdTokenPayload.email,
+					}
+				}
+			}
+		})
+	}
+	const jwtPayload = {
+		id: user.id,
+		name: user.name,
+		email: user.email,
+		role: user.role,
+	};
+
+	const accessToken = jwtUtils.createToken(
+		jwtPayload,
+		config.jwt_access_secret,
+		config.jwt_access_expires_in as SignOptions,
+	);
+
+	const refreshToken = jwtUtils.createToken(
+		jwtPayload,
+		config.jwt_refresh_secret,
+		config.jwt_refresh_expires_in as SignOptions,
+	);
+
+	return {
+		accessToken,
+		refreshToken,
+	};
+
+}
 export const AuthService = {
 	registerPatient,
 	loginUser,
@@ -210,5 +296,6 @@ export const AuthService = {
 	refreshToken,
 	AllUserFromDB,
 	updateRoleFromDB,
-	blockUserFromDB
+	blockUserFromDB,
+	googleLogin
 };
