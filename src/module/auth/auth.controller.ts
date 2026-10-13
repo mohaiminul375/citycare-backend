@@ -1,4 +1,4 @@
-import { request, response, type Request, type Response } from "express";
+import type { Request, Response } from "express";
 import httpStatus from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
@@ -114,36 +114,35 @@ const AllUser = catchAsync(async (req: Request, res: Response) => {
 		message: "User list data retrieved successfully",
 		data: result,
 	});
-})
+});
 
 const updateRole = catchAsync(async (req: Request, res: Response) => {
 	const id = req.params.id;
 	const updatedRole = req.body;
-	const result = await AuthService.updateRoleFromDB(id as string, updatedRole)
+	const result = await AuthService.updateRoleFromDB(id as string, updatedRole);
 	sendResponse(res, {
 		success: true,
 		statusCode: httpStatus.OK,
 		message: "Role updated successfully",
 		data: result,
 	});
-})
+});
 const blockUser = catchAsync(async (req: Request, res: Response) => {
 	const id = req.params.id;
 	const updatedStatus = req.body;
-	const result = await AuthService.blockUserFromDB(id as string, updatedStatus)
+	const result = await AuthService.blockUserFromDB(id as string, updatedStatus);
 	sendResponse(res, {
 		success: true,
 		statusCode: httpStatus.OK,
 		message: "user Blocked successfully",
 		data: result,
 	});
-})
+});
 
-const googleLogin = (catchAsync(async (req: Request, res: Response) => {
-
+const googleLogin = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
-	// console.log(req.body,"req body")
-	const result = await AuthService.googleLogin(payload)
+
+	const result = await AuthService.googleLogin(payload);
 	const { accessToken, refreshToken } = result;
 
 	res.cookie("accessToken", accessToken, {
@@ -168,7 +167,7 @@ const googleLogin = (catchAsync(async (req: Request, res: Response) => {
 			refreshToken,
 		},
 	});
-}))
+});
 export const AuthController = {
 	registerPatient,
 	loginUser,
@@ -177,5 +176,5 @@ export const AuthController = {
 	AllUser,
 	updateRole,
 	blockUser,
-	googleLogin
+	googleLogin,
 };

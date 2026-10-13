@@ -10,5 +10,5 @@ export interface IRegisterPatientPayload {
 }
 
 export interface IGoogleLoginPayload {
-	idToken: string
+	idToken: string;
 }

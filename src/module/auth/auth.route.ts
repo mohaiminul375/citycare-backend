@@ -11,8 +11,7 @@ router.post("/google", AuthController.googleLogin);
 router.get("/me", auth(UserRole.ADMIN, UserRole.CITIZEN), AuthController.getMe);
 router.post("/refresh-token", AuthController.refreshToken);
 // admin
-router.get("/all-user", auth(UserRole.ADMIN), AuthController.AllUser
-);
+router.get("/all-user", auth(UserRole.ADMIN), AuthController.AllUser);
 router.patch("/role/:id", auth(UserRole.ADMIN), AuthController.updateRole);
-router.patch('/block/:id', auth(UserRole.ADMIN), AuthController.blockUser);
+router.patch("/block/:id", auth(UserRole.ADMIN), AuthController.blockUser);
 export const AuthRoutes = router;
