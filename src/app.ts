@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/test", async (req, res, next) => {
 	const grandIdTokenResult = await getBkashIdToken();
-	console.log(grandIdTokenResult)
+	console.log(grandIdTokenResult);
 
 	res.status(httpStatus.OK).json({
 		success: true,

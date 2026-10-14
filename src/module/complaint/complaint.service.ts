@@ -1,4 +1,4 @@
-import { ComplaintStatus } from "../../../generated/prisma/enums";
+import type { ComplaintStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { ICreateComplaint } from "./complaint.interface";
 
@@ -13,52 +13,56 @@ const getAllComplaintAdminFromDB = async () => {
 			staff: true,
 			citizen: {
 				omit: {
-					password: true
-				}
+					password: true,
+				},
 			},
-			category: true
-		}
+			category: true,
+		},
 	});
-	return result
-}
+	return result;
+};
 const getAllComplaintMeFromDB = async (citizenId: string) => {
 	const result = await prisma.complaint.findMany({
 		where: {
-			citizenId: citizenId
-		},
-		include: {
-			staff: true,
-			category: true
-		}
-	});
-	return result
-}
-const getSingleComplaintFromDB = async (id: string) => {
-	const result = await prisma.complaint.findUniqueOrThrow({
-		where: {
-			id: id
+			citizenId: citizenId,
 		},
 		include: {
 			staff: true,
 			category: true,
-			citizen: true
-		}
+		},
 	});
-	return result
-}
+	return result;
+};
+const getSingleComplaintFromDB = async (id: string) => {
+	const result = await prisma.complaint.findUniqueOrThrow({
+		where: {
+			id: id,
+		},
+		include: {
+			staff: true,
+			category: true,
+			citizen: true,
+		},
+	});
+	return result;
+};
 
-const updateComplaintFromDB = async (complaintId: string, citizenId: string, payload: ICreateComplaint) => {
+const updateComplaintFromDB = async (
+	complaintId: string,
+	citizenId: string,
+	payload: ICreateComplaint,
+) => {
 	const result = await prisma.complaint.update({
 		where: {
 			id: complaintId,
 			citizenId: citizenId,
-			status: "PENDING"
+			status: "PENDING",
 		},
-		data: payload
+		data: payload,
 	});
 
 	return result;
-}
+};
 const statusFlow: Record<ComplaintStatus, ComplaintStatus[]> = {
 	PENDING: ["APPROVED", "REJECTED"],
 	APPROVED: ["WAITING_FOR_STAFF"],
@@ -66,13 +70,16 @@ const statusFlow: Record<ComplaintStatus, ComplaintStatus[]> = {
 	ASSIGNED: ["IN_PROGRESS"],
 	IN_PROGRESS: ["RESOLVED"],
 	RESOLVED: [],
-	REJECTED: []
+	REJECTED: [],
 };
 
 // 2. Status update function
-const updateComplaintStatusFromDB = async (complaintId: string, newStatus: ComplaintStatus) => {
+const updateComplaintStatusFromDB = async (
+	complaintId: string,
+	newStatus: ComplaintStatus,
+) => {
 	const complaint = await prisma.complaint.findUnique({
-		where: { id: complaintId }
+		where: { id: complaintId },
 	});
 
 	if (!complaint) {
@@ -83,16 +90,15 @@ const updateComplaintStatusFromDB = async (complaintId: string, newStatus: Compl
 
 	if (!allowedStatuses.includes(newStatus)) {
 		throw new Error(
-			`Cannot change status from ${complaint.status} to ${newStatus}`
+			`Cannot change status from ${complaint.status} to ${newStatus}`,
 		);
 	}
 
 	return prisma.complaint.update({
 		where: { id: complaintId },
-		data: { status: newStatus }
+		data: { status: newStatus },
 	});
 };
-
 
 export const complaintService = {
 	createComplain,
@@ -100,5 +106,5 @@ export const complaintService = {
 	getAllComplaintMeFromDB,
 	getSingleComplaintFromDB,
 	updateComplaintFromDB,
-	updateComplaintStatusFromDB
+	updateComplaintStatusFromDB,
 };
