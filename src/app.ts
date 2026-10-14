@@ -11,6 +11,8 @@ import { AuthRoutes } from "./module/auth/auth.route";
 import { notFound } from "./middleware/notFound";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import { categoriesRoutes } from "./module/categories/categories.route";
+import { success } from "zod";
+import { redisClient } from "./lib/redis";
 
 const app: Application = express();
 
@@ -23,6 +25,20 @@ app.use(
 
 // Enable URL-encoded form data parsing
 app.use(express.urlencoded({ extended: true }));
+
+app.get("/test", async (req, res, next) => {
+	// await redisClient.set("otp:myid@gmail.com", "12556", {
+	// 	expiration: {
+	// 		type: "EX",
+	// 		value: 2 * 60
+	// 	}
+	// })
+
+	res.status(httpStatus.OK).json({
+		success: true,
+		message: "redis is working test",
+	});
+});
 
 // Middleware to parse JSON bodies
 app.use(express.json());

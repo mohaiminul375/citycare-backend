@@ -162,7 +162,7 @@ const refreshToken = async (token: string) => {
 		where: { id: data.userId },
 	});
 
-	if (!user ||	 user.status !== UserStatus.ACTIVE) {
+	if (!user || user.status !== UserStatus.ACTIVE) {
 		throw new Error("User is inactive or not found");
 	}
 
