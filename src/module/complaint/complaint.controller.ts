@@ -3,6 +3,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { complaintService } from "./complaint.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
+import { ComplaintStatus } from "../../../generated/prisma/enums";
 
 const createComplain = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
@@ -55,11 +56,28 @@ const updateComplaint = catchAsync(async (req: Request, res: Response) => {
 		data: result,
 	});
 })
+const updateComplaintStatus = catchAsync(async (req: Request, res: Response) => {
+	const { id } = req.params;
+	const { status } = req.body;
 
+	const result = await complaintService.updateComplaintStatusFromDB(
+		id as string,
+		status as ComplaintStatus
+	);
+
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "Complaint status updated successfully",
+		data: result
+	});
+}
+);
 export const complaintController = {
 	createComplain,
 	getAllComplaintAdmin,
 	getAllComplaintMe,
 	getSingleComplaint,
-	updateComplaint
+	updateComplaint,
+	updateComplaintStatus
 };

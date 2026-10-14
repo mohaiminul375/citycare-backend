@@ -1,3 +1,4 @@
+import { ComplaintStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { ICreateComplaint } from "./complaint.interface";
 
@@ -58,6 +59,39 @@ const updateComplaintFromDB = async (complaintId: string, citizenId: string, pay
 
 	return result;
 }
+const statusFlow: Record<ComplaintStatus, ComplaintStatus[]> = {
+	PENDING: ["APPROVED", "REJECTED"],
+	APPROVED: ["WAITING_FOR_STAFF"],
+	WAITING_FOR_STAFF: ["ASSIGNED"],
+	ASSIGNED: ["IN_PROGRESS"],
+	IN_PROGRESS: ["RESOLVED"],
+	RESOLVED: [],
+	REJECTED: []
+};
+
+// 2. Status update function
+const updateComplaintStatusFromDB = async (complaintId: string, newStatus: ComplaintStatus) => {
+	const complaint = await prisma.complaint.findUnique({
+		where: { id: complaintId }
+	});
+
+	if (!complaint) {
+		throw new Error("Complaint not found");
+	}
+
+	const allowedStatuses = statusFlow[complaint.status];
+
+	if (!allowedStatuses.includes(newStatus)) {
+		throw new Error(
+			`Cannot change status from ${complaint.status} to ${newStatus}`
+		);
+	}
+
+	return prisma.complaint.update({
+		where: { id: complaintId },
+		data: { status: newStatus }
+	});
+};
 
 
 export const complaintService = {
@@ -65,5 +99,6 @@ export const complaintService = {
 	getAllComplaintAdminFromDB,
 	getAllComplaintMeFromDB,
 	getSingleComplaintFromDB,
-	updateComplaintFromDB
+	updateComplaintFromDB,
+	updateComplaintStatusFromDB
 };

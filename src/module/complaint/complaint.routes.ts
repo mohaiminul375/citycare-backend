@@ -20,5 +20,5 @@ router.patch('/update/:id', auth(UserRole.CITIZEN), complaintController.updateCo
 router.get('/',
 	auth(UserRole.ADMIN, UserRole.CITY_ADMIN),
 	complaintController.getAllComplaintAdmin);
-
+router.patch('/updateStatus/:id',auth(UserRole.ADMIN),complaintController.updateComplaintStatus)
 export const complaintRoutes = router;

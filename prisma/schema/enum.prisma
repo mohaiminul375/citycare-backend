@@ -1,29 +1,30 @@
 enum UserRole {
-    CITIZEN
-    ADMIN
-    CITY_ADMIN
-    DEPARTMENT_STAFF
+  CITIZEN
+  ADMIN
+  CITY_ADMIN
+  DEPARTMENT_STAFF
 }
 
 enum UserStatus {
-    ACTIVE
-    BLOCKED
+  ACTIVE
+  BLOCKED
 }
 
 enum AuthProvider {
-    GOOGLE
-    CREDENTIAL
+  GOOGLE
+  CREDENTIAL
 }
 
 enum ComplaintStatus {
   PENDING
   APPROVED
-  REJECTED
+  WAITING_FOR_STAFF
   ASSIGNED
   IN_PROGRESS
   RESOLVED
-  CANCELLED
+  REJECTED
 }
+
 
 enum PaymentStatus {
   PENDING
