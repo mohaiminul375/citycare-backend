@@ -12,6 +12,7 @@ import { notFound } from "./middleware/notFound";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import { categoriesRoutes } from "./module/categories/categories.route";
 import { complaintRoutes } from "./module/complaint/complaint.routes";
+import { getBkashIdToken } from "./lib/bkash";
 
 const app: Application = express();
 
@@ -26,12 +27,8 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/test", async (req, res, next) => {
-	// await redisClient.set("otp:myid@gmail.com", "12556", {
-	// 	expiration: {
-	// 		type: "EX",
-	// 		value: 2 * 60
-	// 	}
-	// })
+	const grandIdTokenResult = await getBkashIdToken();
+	console.log(grandIdTokenResult)
 
 	res.status(httpStatus.OK).json({
 		success: true,
