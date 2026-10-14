@@ -1,8 +1,26 @@
-model complain {
-    id String @id @default(uuid())
+model Complaint {
+  id          String          @id @default(uuid())
+  title       String
+  description String
+  images      String[]        @default([])
+  address     String
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  status        ComplaintStatus @default(PENDING)
+  paymentStatus PaymentStatus   @default(PENDING)
 
-    @@map("complains")
+  citizenId   String
+  categoryId  String
+  staffId     String?
+
+  adminNote   String?
+  amount      Int               @default(100)
+
+  citizen     User     @relation("CitizenComplaints", fields: [citizenId], references: [id])
+  category    Category @relation(fields: [categoryId], references: [id])
+  staff       User?    @relation("AssignedComplaints", fields: [staffId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("complaints")
 }
