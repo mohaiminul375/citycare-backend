@@ -229,7 +229,6 @@ const googleLogin = async (payload: IGoogleLoginPayload) => {
 	// const googleInfo = (await result).getPayload()
 
 	// googleInfo.
-	console.log(payload);
 	let googleIdTokenPayload: TokenPayload | null | undefined = null;
 	try {
 		const ticket = await googleClient.verifyIdToken({

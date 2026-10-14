@@ -11,8 +11,7 @@ import { AuthRoutes } from "./module/auth/auth.route";
 import { notFound } from "./middleware/notFound";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import { categoriesRoutes } from "./module/categories/categories.route";
-import { success } from "zod";
-import { redisClient } from "./lib/redis";
+import { complaintRoutes } from "./module/complaint/complaint.routes";
 
 const app: Application = express();
 
@@ -46,6 +45,7 @@ app.use(cookieParser());
 // Api's
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
+app.use("/api/v1/complaint", complaintRoutes);
 
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
