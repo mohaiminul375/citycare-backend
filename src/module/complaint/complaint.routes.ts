@@ -12,4 +12,11 @@ router.post(
 	validateRequestZod(complaintValidationZod.createComplainValidation),
 	complaintController.createComplain,
 );
+
+router.get('/me/:id', complaintController.getAllComplaintMe)
+
+// admin
+router.get('/',
+	auth(UserRole.ADMIN,UserRole.CITY_ADMIN),
+	complaintController.getAllComplaintAdmin)
 export const complaintRoutes = router;
