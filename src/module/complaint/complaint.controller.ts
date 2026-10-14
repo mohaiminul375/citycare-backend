@@ -33,10 +33,20 @@ const getAllComplaintMe = catchAsync(async (req: Request, res: Response) => {
 		data: result,
 	});
 })
+const getSingleComplaint = catchAsync(async (req: Request, res: Response) => {
+	const result = await complaintService.getSingleComplaintFromDB(req.params.id as string)
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "get single complaint  successfully",
+		data: result,
+	});
+})
 
 
 export const complaintController = {
 	createComplain,
 	getAllComplaintAdmin,
-	getAllComplaintMe
+	getAllComplaintMe,
+	getSingleComplaint
 };

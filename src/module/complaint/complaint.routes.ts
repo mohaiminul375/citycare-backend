@@ -14,6 +14,7 @@ router.post(
 );
 
 router.get('/me/:id', complaintController.getAllComplaintMe)
+router.get('/:id', complaintController.getSingleComplaint)
 
 // admin
 router.get('/',

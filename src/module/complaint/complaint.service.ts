@@ -32,9 +32,23 @@ const getAllComplaintMeFromDB = async (citizenId: string) => {
 	});
 	return result
 }
+const getSingleComplaintFromDB = async (id: string) => {
+	const result = await prisma.complaint.findUniqueOrThrow({
+		where: {
+			id: id
+		},
+		include: {
+			staff: true,
+			category: true,
+			citizen: true
+		}
+	});
+	return result
+}
 
 export const complaintService = {
 	createComplain,
 	getAllComplaintAdminFromDB,
-	getAllComplaintMeFromDB
+	getAllComplaintMeFromDB,
+	getSingleComplaintFromDB
 };
