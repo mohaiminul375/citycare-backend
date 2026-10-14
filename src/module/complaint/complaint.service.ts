@@ -46,9 +46,24 @@ const getSingleComplaintFromDB = async (id: string) => {
 	return result
 }
 
+const updateComplaintFromDB = async (complaintId: string, citizenId: string, payload: ICreateComplaint) => {
+	const result = await prisma.complaint.update({
+		where: {
+			id: complaintId,
+			citizenId: citizenId,
+			status: "PENDING"
+		},
+		data: payload
+	});
+
+	return result;
+}
+
+
 export const complaintService = {
 	createComplain,
 	getAllComplaintAdminFromDB,
 	getAllComplaintMeFromDB,
-	getSingleComplaintFromDB
+	getSingleComplaintFromDB,
+	updateComplaintFromDB
 };

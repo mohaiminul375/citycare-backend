@@ -13,11 +13,12 @@ router.post(
 	complaintController.createComplain,
 );
 
-router.get('/me/:id', complaintController.getAllComplaintMe)
-router.get('/:id', complaintController.getSingleComplaint)
-
+router.get('/me/:id', auth(UserRole.CITIZEN), complaintController.getAllComplaintMe)
+router.get('/:id', auth(UserRole.ADMIN, UserRole.CITY_ADMIN, UserRole.CITIZEN), complaintController.getSingleComplaint)
+router.patch('/update/:id', auth(UserRole.CITIZEN), complaintController.updateComplaint)
 // admin
 router.get('/',
-	auth(UserRole.ADMIN,UserRole.CITY_ADMIN),
-	complaintController.getAllComplaintAdmin)
+	auth(UserRole.ADMIN, UserRole.CITY_ADMIN),
+	complaintController.getAllComplaintAdmin);
+
 export const complaintRoutes = router;

@@ -42,11 +42,24 @@ const getSingleComplaint = catchAsync(async (req: Request, res: Response) => {
 		data: result,
 	});
 })
+const updateComplaint = catchAsync(async (req: Request, res: Response) => {
+	const complaintId = req.params.id;
+	const citizenId = req.user?.id;
+	const payload = req.body;
+	const result = await complaintService.updateComplaintFromDB(complaintId as string, citizenId as string, payload);
 
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "complaint update  successfully",
+		data: result,
+	});
+})
 
 export const complaintController = {
 	createComplain,
 	getAllComplaintAdmin,
 	getAllComplaintMe,
-	getSingleComplaint
+	getSingleComplaint,
+	updateComplaint
 };
