@@ -13,6 +13,7 @@ import globalErrorHandler from "./middleware/globalErrorHandler";
 import { categoriesRoutes } from "./module/categories/categories.route";
 import { complaintRoutes } from "./module/complaint/complaint.routes";
 import { getBkashIdToken } from "./lib/bkash";
+import { paymentRoutes } from "./module/payment/payment.routes";
 
 const app: Application = express();
 
@@ -43,6 +44,7 @@ app.use(cookieParser());
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/categories", categoriesRoutes);
 app.use("/api/v1/complaint", complaintRoutes);
+app.use("/api/v1/payment", paymentRoutes);
 
 // Basic route
 app.get("/", async (req: Request, res: Response) => {
