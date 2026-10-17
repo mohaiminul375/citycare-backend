@@ -4,7 +4,6 @@ import { complaintService } from "./complaint.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import type { ComplaintStatus } from "../../../generated/prisma/enums";
-import { prisma } from "../../lib/prisma";
 
 const createComplain = catchAsync(async (req: Request, res: Response) => {
 	const payload = req.body;
@@ -66,36 +65,39 @@ const updateComplaint = catchAsync(async (req: Request, res: Response) => {
 		data: result,
 	});
 });
-const updateComplaintStatus = catchAsync(async (req: Request, res: Response) => {
-	const { id } = req.params;
-	const { status } = req.body;
+const updateComplaintStatus = catchAsync(
+	async (req: Request, res: Response) => {
+		const { id } = req.params;
+		const { status } = req.body;
 
-	const result = await complaintService.updateComplaintStatusFromDB(
-		id as string,
-		status as ComplaintStatus,
-	);
+		const result = await complaintService.updateComplaintStatusFromDB(
+			id as string,
+			status as ComplaintStatus,
+		);
 
-	sendResponse(res, {
-		statusCode: httpStatus.OK,
-		success: true,
-		message: "Complaint status updated successfully",
-		data: result,
-	});
-},
+		sendResponse(res, {
+			statusCode: httpStatus.OK,
+			success: true,
+			message: "Complaint status updated successfully",
+			data: result,
+		});
+	},
 );
-
 
 const assignStaff = catchAsync(async (req: Request, res: Response) => {
 	const complaintId = req.params.id;
-	const payload = req.body
-	const result = await complaintService.assignStaffFromDB(complaintId as string, payload);
+	const payload = req.body;
+	const result = await complaintService.assignStaffFromDB(
+		complaintId as string,
+		payload,
+	);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
 		message: "Assign a staff successfully",
 		data: result,
 	});
-})
+});
 
 const getStaffAssignment = catchAsync(async (req: Request, res: Response) => {
 	const id = req.user?.id;
@@ -107,19 +109,22 @@ const getStaffAssignment = catchAsync(async (req: Request, res: Response) => {
 		message: "get all assignment for staff successfully",
 		data: result,
 	});
-})
+});
 
 const updateStatusByStaff = catchAsync(async (req: Request, res: Response) => {
 	const complaintId = req.params?.id;
 	const { status } = req.body;
-	const result = await complaintService.updateComplaintStatusFromDB(complaintId as string, status);
+	const result = await complaintService.updateComplaintStatusFromDB(
+		complaintId as string,
+		status,
+	);
 	sendResponse(res, {
 		statusCode: httpStatus.OK,
 		success: true,
 		message: "update assignment status successfully",
 		data: result,
 	});
-})
+});
 export const complaintController = {
 	createComplain,
 	getAllComplaintAdmin,
@@ -129,5 +134,5 @@ export const complaintController = {
 	updateComplaintStatus,
 	assignStaff,
 	getStaffAssignment,
-	updateStatusByStaff
+	updateStatusByStaff,
 };

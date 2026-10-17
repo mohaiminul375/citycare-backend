@@ -13,9 +13,9 @@ const createComplainValidation = z.object({
 	categoryId: z.string("category id must be a sting"),
 });
 const staffAssignmentSchema = z.object({
-	status: z.enum(staffAssignmentStatus)
-})
+	status: z.enum(staffAssignmentStatus),
+});
 export const complaintValidationZod = {
 	createComplainValidation,
-	staffAssignmentSchema
+	staffAssignmentSchema,
 };

@@ -18,7 +18,11 @@ router.post(
 	AuthController.loginUser,
 );
 router.post("/google", AuthController.googleLogin);
-router.get("/me", auth(UserRole.ADMIN, UserRole.CITIZEN,UserRole.DEPARTMENT_STAFF), AuthController.getMe);
+router.get(
+	"/me",
+	auth(UserRole.ADMIN, UserRole.CITIZEN, UserRole.DEPARTMENT_STAFF),
+	AuthController.getMe,
+);
 router.post("/refresh-token", AuthController.refreshToken);
 // admin
 router.get("/all-user", auth(UserRole.ADMIN), AuthController.AllUser);

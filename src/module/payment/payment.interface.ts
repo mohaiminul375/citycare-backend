@@ -1,5 +1,5 @@
 export interface IExecutedPaymentResult {
-    merchantInvoiceNumber: string;
-    transactionStatus?: string;
-    paymentID?: string;
+	merchantInvoiceNumber: string;
+	transactionStatus?: string;
+	paymentID?: string;
 }

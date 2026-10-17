@@ -7,8 +7,6 @@ import { complaintValidationZod } from "./complaint.validation";
 
 const router = Router();
 
-
-
 router.post(
 	"/",
 	auth(UserRole.CITIZEN),
@@ -22,7 +20,11 @@ router.get(
 	complaintController.getAllComplaintAdmin,
 );
 // staff
-router.get('/staff', auth(UserRole.DEPARTMENT_STAFF), complaintController.getStaffAssignment)
+router.get(
+	"/staff",
+	auth(UserRole.DEPARTMENT_STAFF),
+	complaintController.getStaffAssignment,
+);
 router.get(
 	"/me/:id",
 	auth(UserRole.CITIZEN),
@@ -45,11 +47,18 @@ router.patch(
 	complaintController.updateComplaintStatus,
 );
 
-router.patch('/assignStaff/:id', auth(UserRole.ADMIN, UserRole.CITY_ADMIN), complaintController.assignStaff)
+router.patch(
+	"/assignStaff/:id",
+	auth(UserRole.ADMIN, UserRole.CITY_ADMIN),
+	complaintController.assignStaff,
+);
 
 // Department Staff
-router.patch('/staff/:id', auth(UserRole.DEPARTMENT_STAFF),
+router.patch(
+	"/staff/:id",
+	auth(UserRole.DEPARTMENT_STAFF),
 	validateRequestZod(complaintValidationZod.staffAssignmentSchema),
-	complaintController.updateStatusByStaff)
+	complaintController.updateStatusByStaff,
+);
 
 export const complaintRoutes = router;

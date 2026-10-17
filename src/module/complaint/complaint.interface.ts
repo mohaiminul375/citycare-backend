@@ -5,4 +5,3 @@ export interface ICreateComplaint {
 	citizenId: string;
 	categoryId: string;
 }
-
