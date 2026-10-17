@@ -92,9 +92,6 @@ CityCare is a backend API for a city complaint and service request management pl
 | Method | Endpoint | Description |
 |---|---|---|
 | POST | `/api/v1/payment/create` | Create a bKash payment |
-| GET | `/api/v1/payment/success` | Handle the payment success callback |
-| GET | `/api/v1/payment/failure` | Handle the payment failure callback |
-| GET | `/api/v1/payment/cancel` | Handle the payment cancellation callback |
 
 *Note: The callback methods and paths should match the actual bKash integration and backend implementation.*
 
@@ -113,7 +110,6 @@ CityCare is a backend API for a city complaint and service request management pl
 | POST | `/api/v1/category` | Create a complaint category |
 | GET | `/api/v1/category` | Get all categories |
 | PATCH | `/api/v1/category/:id` | Update a category |
-| DELETE | `/api/v1/category/:id` | Delete a category |
 
 ---
 
