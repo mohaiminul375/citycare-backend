@@ -1,4 +1,4 @@
-import type { ComplaintStatus } from "../../../generated/prisma/enums";
+import { ComplaintStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { ICreateComplaint } from "./complaint.interface";
 
@@ -27,7 +27,11 @@ const getAllComplaintMeFromDB = async (citizenId: string) => {
 			citizenId: citizenId,
 		},
 		include: {
-			staff: true,
+			staff: {
+				omit: {
+					password: true
+				}
+			},
 			category: true,
 		},
 	});
@@ -100,6 +104,21 @@ const updateComplaintStatusFromDB = async (
 	});
 };
 
+const assignStaffFromDB = async (complaintId: string, payload: { staffId: string, adminNote: string }) => {
+	const result = await prisma.complaint.update({
+		where: {
+			id: complaintId
+		},
+		data: {
+			staffId: payload.staffId,
+			adminNote: payload.adminNote,
+			status: ComplaintStatus.ASSIGNED
+		}
+	})
+
+	return result;
+}
+
 export const complaintService = {
 	createComplain,
 	getAllComplaintAdminFromDB,
@@ -107,4 +126,5 @@ export const complaintService = {
 	getSingleComplaintFromDB,
 	updateComplaintFromDB,
 	updateComplaintStatusFromDB,
+	assignStaffFromDB
 };

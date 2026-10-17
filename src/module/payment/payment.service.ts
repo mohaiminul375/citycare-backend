@@ -1,4 +1,4 @@
-import { PaymentStatus } from "../../../generated/prisma/enums"
+import { ComplaintStatus, PaymentStatus } from "../../../generated/prisma/enums"
 import config from "../../config"
 import { getBkashIdToken } from "../../lib/bkash"
 import { prisma } from "../../lib/prisma"
@@ -91,7 +91,8 @@ const paymentCallback = async (query: Record<string, any>) => {
                 id: executedPaymentResult.merchantInvoiceNumber
             },
             data: {
-                paymentStatus: PaymentStatus.PAID
+                paymentStatus: PaymentStatus.PAID,
+                status: ComplaintStatus.WAITING_FOR_STAFF
             }
         })
         return {

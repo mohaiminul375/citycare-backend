@@ -39,4 +39,6 @@ router.patch(
 	auth(UserRole.ADMIN),
 	complaintController.updateComplaintStatus,
 );
+
+router.patch('/assignStaff/:id', complaintController.assignStaff)
 export const complaintRoutes = router;
