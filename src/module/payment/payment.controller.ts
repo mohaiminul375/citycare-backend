@@ -5,9 +5,9 @@ import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 
 const createPaymentAndUpdateStatus = catchAsync(async (req: Request, res: Response) => {
-    // const { complaintId } = req.body;
-    // const citizenid = req.user?.id;
-    const result = await paymentService.createPaymentAndUpdateStatusToDB();
+    const { complaintId } = req.body;
+    const citizenId = req.user?.id;
+    const result = await paymentService.createPaymentAndUpdateStatusToDB(complaintId as string, citizenId as string);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -17,15 +17,12 @@ const createPaymentAndUpdateStatus = catchAsync(async (req: Request, res: Respon
     });
 })
 const paymentCallBack = catchAsync(async (req: Request, res: Response) => {
-    console.log(req.query,"req.query")
-    const result = paymentService.paymentCallback();
+    console.log(req.query, "req.query")
+    const { executedPaymentResult, redirectUrl } = await paymentService.paymentCallback(req.query);
 
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: "payment callback successfully",
-        data: result,
-    });
+    console.log({ executedPaymentResult }, "callback controller");
+    console.log(redirectUrl, "redirect url");
+    res.redirect(redirectUrl);
 })
 
 export const paymentController = {
