@@ -25,6 +25,10 @@ enum ComplaintStatus {
   REJECTED
 }
 
+enum staffAssignmentStatus {
+  IN_PROGRESS
+  RESOLVED
+}
 
 enum PaymentStatus {
   PENDING

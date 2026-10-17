@@ -27,6 +27,7 @@ const getAllComplaintAdmin = catchAsync(async (req: Request, res: Response) => {
 	});
 });
 const getAllComplaintMe = catchAsync(async (req: Request, res: Response) => {
+	// Todo:
 	const result = await complaintService.getAllComplaintMeFromDB(
 		req.params.id as string,
 	);
@@ -96,6 +97,29 @@ const assignStaff = catchAsync(async (req: Request, res: Response) => {
 	});
 })
 
+const getStaffAssignment = catchAsync(async (req: Request, res: Response) => {
+	const id = req.user?.id;
+	console.log(id);
+	const result = await complaintService.getStaffAssignmentFormDB(id as string);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "get all assignment for staff successfully",
+		data: result,
+	});
+})
+
+const updateStatusByStaff = catchAsync(async (req: Request, res: Response) => {
+	const complaintId = req.params?.id;
+	const { status } = req.body;
+	const result = await complaintService.updateComplaintStatusFromDB(complaintId as string, status);
+	sendResponse(res, {
+		statusCode: httpStatus.OK,
+		success: true,
+		message: "update assignment status successfully",
+		data: result,
+	});
+})
 export const complaintController = {
 	createComplain,
 	getAllComplaintAdmin,
@@ -103,5 +127,7 @@ export const complaintController = {
 	getSingleComplaint,
 	updateComplaint,
 	updateComplaintStatus,
-	assignStaff
+	assignStaff,
+	getStaffAssignment,
+	updateStatusByStaff
 };

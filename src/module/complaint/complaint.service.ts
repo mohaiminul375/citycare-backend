@@ -1,4 +1,5 @@
-import { ComplaintStatus } from "../../../generated/prisma/enums";
+import { tuple } from "zod";
+import { ComplaintStatus, staffAssignmentStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import type { ICreateComplaint } from "./complaint.interface";
 
@@ -119,6 +120,31 @@ const assignStaffFromDB = async (complaintId: string, payload: { staffId: string
 	return result;
 }
 
+const getStaffAssignmentFormDB = async (id: string) => {
+	const result = await prisma.complaint.findMany({
+		where: {
+			staffId: id
+		},
+		include: {
+			category: true,
+			staff: true,
+			citizen: true,
+		}
+	})
+	return result
+}
+
+const updateStatusByStaffFromDB = async (complaintId: string, status: staffAssignmentStatus) => {
+	const result = await prisma.complaint.update({
+		where: {
+			id: complaintId
+		},
+		data: {
+			status
+		}
+	})
+	return result
+}
 export const complaintService = {
 	createComplain,
 	getAllComplaintAdminFromDB,
@@ -126,5 +152,7 @@ export const complaintService = {
 	getSingleComplaintFromDB,
 	updateComplaintFromDB,
 	updateComplaintStatusFromDB,
-	assignStaffFromDB
+	assignStaffFromDB,
+	getStaffAssignmentFormDB,
+	updateStatusByStaffFromDB
 };

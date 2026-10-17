@@ -119,7 +119,11 @@ const paymentCallback = async (query: Record<string, any>) => {
     }
 }
 
+
+
+
 export const paymentService = {
     createPaymentAndUpdateStatusToDB,
-    paymentCallback
+    paymentCallback,
+    
 }
