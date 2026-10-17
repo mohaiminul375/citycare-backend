@@ -1,95 +1,162 @@
-# City Care
-
-**"Find & List Rental Properties with Ease"**
+# CityCare
+**A City Complaint & Service Request Management Platform**
 
 ---
 
 ## Project Overview
 
-cityCare is a backend API for a City complaint and service request plat form. Where citizen can submit a complain and city Authority an fix and updating data throw the api's
+CityCare is a backend API for a city complaint and service request management platform. Citizens can submit complaints about problems in their city, while city authorities can review complaints, assign department staff, update service statuses, and manage resolutions through the API.
 
 ---
 
 ## Roles & Permissions
 
-| Role                 | Description                        | Key Permissions                                                      |
-| -------------------- | ---------------------------------- | -------------------------------------------------------------------- |
-| **Citizen**          | Citizen Submit a problem/complaint | Browse citizen own complaint update see status and payment           |
-| **City Admin**       | City authority who solved Problem  | see list of complaint update status and assign staff                 |
-| **Department Staff** | Department staff or technician     | see his own assignment update status after complete assignment       |
-| **Admin**            | Platform moderators                | Manage all users, oversee all listings & requests, manage categories |
+| Role | Description | Key Permissions |
+|---|---|---|
+| **Citizen** | A citizen who submits complaints | Create complaints, view own complaints and statuses, update eligible complaints, make payments, and manage profile |
+| **City Admin** | An authorized city authority | Review complaints, approve or reject requests, assign department staff, and update complaint statuses |
+| **Department Staff** | Department staff or technicians | View assigned complaints and update their progress and completion status |
+| **Admin** | Platform administrator | Manage users, block/unblock accounts, manage categories, and oversee all complaints |
 
 ---
 
 ## Features
 
 ### Public Features
-
-- NO public features
+- No public features.
 
 ### Citizen Features
-
-- Register and login as Citizen
-- Submit service requests or complaint any city problem
-- **Make payments via Bkash after service request is approved**
-- View service request history (pending, approved, rejected, in_progress etc.)
-- Manage profile
+- Register and log in as a citizen.
+- Submit service requests or complaints about city problems.
+- Pay through bKash after a service request is approved.
+- View complaint history and current statuses.
+- Update complaints when permitted.
+- Manage profile information.
 
 ### City Admin Features
+- Register and log in.
+- Obtain City Admin access after approval by the platform Admin.
+- Review complaints and approve or reject requests.
+- Assign department staff to approved complaints.
+- Update complaint statuses.
 
-- Register and login and get role after admin approve
-- reviewing complaint update status assigned staff
+### Department Staff Features
+- View assigned service requests.
+- Update assigned complaint progress.
+- Mark assignments as completed after resolving the issue.
 
 ### Admin Features
-
-- View all users
-- Manage user status (ban/unban)
-- View all listings of complaint
-- Manage property categories
+- View all users.
+- Block or unblock users.
+- View all complaints.
+- Manage complaint categories.
+- Manage user roles and permissions.
 
 ---
 
 ## API Endpoints
 
-### Authentication
+### 1. Authentication
 
-| Method | Endpoint                | Description                         |
-| ------ | ----------------------- | ----------------------------------- | --- |
-| POST   | `/api/v1/auth/register` | Register new user (tenant/landlord) | ❤️  |
-| POST   | `/api//v1/auth/login`   | Login user, return JWT              | ❤️  |
-| GET    | `/api/v1/auth/me`       | Get current authenticated user      | ❤️  |
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/v1/auth/register` | Register a new citizen or user |
+| POST | `/api/v1/auth/login` | Log in and receive authentication tokens |
+| GET | `/api/v1/auth/me` | Get the current authenticated user's profile |
 
-### Citizen Management
+### 2. Citizen — Complaint Management
 
-| Method | Endpoint                       | Description                      |
-| ------ | ------------------------------ | -------------------------------- | --- | --- | --- |
-| POST   | `/api/v1/complaint`            | Create new Complaint             | ❤️  |
-| GET    | `/api/v1/complaint/me/:id`     | Get MY(Citizen) complain list    | ❤️  |
-| DELETE | `/api/v1/complaint/:id`        | Get MY(Citizen) complain Details | ❤️  |     | ❤️  |
-| PATCH  | `/api/v1/complaint/update/:id` | Update a complaint               | ❤️  |
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/v1/complaint` | Create a new complaint |
+| GET | `/api/v1/complaint/me` | Get the authenticated citizen's complaints |
+| PATCH | `/api/v1/complaint/update/:id` | Update an eligible complaint |
 
-### City Admin
+### 3. City Admin — Complaint Management
 
-| Method | Endpoint                            | Description                    |
-| ------ | ----------------------------------- | ------------------------------ | --- |
-| PATCH  | `/api/v1/complaint/assignStaff/:id` | Assign a staff to a assignment | ❤️  |
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/v1/complaint` | View all complaints |
+| PATCH | `/api/v1/complaint/status/:id` | Approve, reject, or update complaint status |
+| PATCH | `/api/v1/complaint/assign-staff/:id` | Assign department staff to a complaint |
 
-### Payments (Bkash)
+### 4. Department Staff — Assignments
 
-| Method | Endpoint                 | Description                     |
-| ------ | ------------------------ | ------------------------------- |
-| POST   | `/api/v1/payment/create` | Create a payment intent/session |
-|  |
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/v1/complaint/staff` | View complaints assigned to the logged-in staff member |
+| PATCH | `/api/v1/complaint/staff/status/:id` | Update the status of an assigned complaint |
 
-### Admin
+### 5. Payments — bKash
 
-| Method | Endpoint                 | Description                        |
-| ------ | ------------------------ | ---------------------------------- | --- |
-| GET    | `/api/v1/auth/all-user`  | Get all users                      | ❤️  |
-| PATCH  | `/api/v1/auth/block/:id` | Update user status (block/unblock) | ❤️  |
-| GET    | `/api/v1/auth/role/:id`  | Update User role                   | ❤️  |
-| GET    | `/api/v1/complaint`      | Get all Complaint list             | ❤️  |
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/v1/payment/create` | Create a bKash payment |
+| GET | `/api/v1/payment/success` | Handle the payment success callback |
+| GET | `/api/v1/payment/failure` | Handle the payment failure callback |
+| GET | `/api/v1/payment/cancel` | Handle the payment cancellation callback |
+
+*Note: The callback methods and paths should match the actual bKash integration and backend implementation.*
+
+### 6. Admin — User Management
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/v1/auth/all-user` | Get all users |
+| PATCH | `/api/v1/auth/block/:id` | Block or unblock a user |
+| PATCH | `/api/v1/auth/role/:id` | Update a user's role |
+
+### 7. Admin — Category Management
+
+| Method | Endpoint | Description |
+|---|---|---|
+| POST | `/api/v1/category` | Create a complaint category |
+| GET | `/api/v1/category` | Get all categories |
+| PATCH | `/api/v1/category/:id` | Update a category |
+| DELETE | `/api/v1/category/:id` | Delete a category |
 
 ---
 
-## Flow Diagrams
+## Complaint Status Workflow
+
+```text
+PENDING
+   |
+   +----> REJECTED
+   |
+   +----> APPROVED
+              |
+              v
+      WAITING_FOR_STAFF
+              |
+              v
+          ASSIGNED
+              |
+              v
+         IN_PROGRESS
+              |
+              v
+           RESOLVED
+```
+
+**Payment rule:** Citizens can pay through bKash only after a complaint has been approved. The backend must verify the payment result before marking the payment as paid.
+
+---
+
+## Security & Authorization
+
+- Citizens can access and update only their own eligible complaints.
+- City Admins can manage complaints within their authorized scope.
+- Department Staff can view and update only their assigned complaints.
+- Admin-only endpoints require Admin authorization.
+- Request bodies must be validated before database updates.
+- Complaint status transitions must follow the defined workflow.
+- Payment status must be updated only after server-side payment verification.
+
+---
+
+## Notes
+
+- All endpoints use the `/api/v1` prefix.
+- Authentication and role-based authorization are required for protected routes.
+- Endpoint names and HTTP methods should remain consistent with the implemented Express routers.
