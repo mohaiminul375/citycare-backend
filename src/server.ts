@@ -9,7 +9,7 @@ const main = async () => {
 		await prisma.$connect();
 		console.log("Prisma connected and working");
 		await redisClient.connect();
-		console.log("Redis connected and working");
+		console.log("Redis connected and working.");
 		app.listen(port, () => {
 			console.log(`rent-nest server running on port:${port}`);
 		});
