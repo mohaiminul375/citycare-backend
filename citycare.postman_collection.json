@@ -1,0 +1,517 @@
+{
+  "info": {
+    "_postman_id": "cb0bbf99-b703-41cf-9f7d-d87aa38ef34b",
+    "name": "citycare",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57191183",
+    "_collection_link": "https://go.postman.co/collection/57191183-cb0bbf99-b703-41cf-9f7d-d87aa38ef34b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Ashfaq\",\r\n    \"email\":\"Ashfaq20@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "// admin\r\n// {\r\n//     \"email\":\"admin1@citycare.com\",\r\n//     \"password\":\"123456\"\r\n// }\r\n\r\n// citizen\r\n{\r\n    \"email\":\"ashfaq20@gmail.com\",\r\n    \"password\":\"123456\"\r\n}\r\n\r\n// Dept staff\r\n// {\r\n//     \"email\":\"surujali92@gmail.com\",\r\n//     \"password\":\"123456\"\r\n// }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get me",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "google login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"idToken\":\"eyJhbGciOiJSUzI1NiIsImtpZCI6Ijk0M2EzYTVkN2Q5MTk2MjVhNDU0ZTQ4OWI3NWMyOWFkYWI1N2FjYmEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI3MDg2MjgyNzA2NjItbmM0aGdwbHVuZGx1ODQza2VjcmRxaW0zdWY4YWVqN2IuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI3MDg2MjgyNzA2NjItbmM0aGdwbHVuZGx1ODQza2VjcmRxaW0zdWY4YWVqN2IuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDQxODM3MjkxNzQ0Nzk0NjkyNTQiLCJlbWFpbCI6Im1vaGFpbWludWwzNzVAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5iZiI6MTc5MjMwMTU0OCwibmFtZSI6Ik1vaGFpbWludWwgSXNsYW0iLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSWd4WmctdXRCLUtZWVJ3THVBd3B6bUdJR1VYT0VqM2d1QVEzQjlmcE5zMDRJMnpTbTM9czk2LWMiLCJnaXZlbl9uYW1lIjoiTW9oYWltaW51bCIsImZhbWlseV9uYW1lIjoiSXNsYW0iLCJpYXQiOjE3OTIzMDE4NDgsImV4cCI6MTc5MjMwNTQ0OCwianRpIjoiZmVlZWM5MGU2MDM1YTg2NzM5OWM4ZjZkNGNmMTNmOWQ4MjA3ZDYyOCJ9.N5QH7ZnS3mxmDW2F4Xr8ZEpWoZBtXuItjqFA3urF5OkgfR4bdimwCG1rpk-wQn03f-EFLv6ZHJ4AtvBqjS2NvP0_koXVGwM5LgwxSM-yQP4t66YHJY_jqTeVYYN88BcsGnTHAEP4fF4Unc9TaLle4Mz12vhIL_lfg-qiqfcrWa3AdDRwBK7Qy-W8SXtjnbUUHlqSgSbWu7PqI36OfXq6PbXSJA23R44SStqQFAwT3_DlFspPgKGuMm0CsntVXY3cWUGHgtld6O_xZ3umALHvbqpNYy9FiXAei80KXLg_yh25dezBpRdFNrGesmVE7-Pg-uV0GqV7G9hZa5m6pQ-0Aw\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/google",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "google"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "all user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/all-user",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "all-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update complaint status",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"APPROVED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint/updateStatus/3cba8b9d-f505-45bc-aaa7-32b7cd6a0861",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "updateStatus",
+                "3cba8b9d-f505-45bc-aaa7-32b7cd6a0861"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "assign a staff",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"staffId\":\"1d417b38-5706-4b85-a097-e2f6f978cf57\",\r\n    \"adminNote\":\"High Priority\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint/assignStaff/3cba8b9d-f505-45bc-aaa7-32b7cd6a0861",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "assignStaff",
+                "3cba8b9d-f505-45bc-aaa7-32b7cd6a0861"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update role",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"role\":\"CITY_ADMIN\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/role/7887f8b7-cbed-4291-bac1-29e4cb318329",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "role",
+                "7887f8b7-cbed-4291-bac1-29e4cb318329"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "categories",
+      "item": [
+        {
+          "name": "create category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"category\":\"CONSTRUCTION112\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories/f2880af0-de34-4377-87ca-ae37feaaaae8",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                "f2880af0-de34-4377-87ca-ae37feaaaae8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get All Category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "complaint",
+      "item": [
+        {
+          "name": "complaint create",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\"title\": \"Blocked Drain Near Residential Area\",\r\n  \"description\": \"The drain is blocked and wastewater is accumulating on the road.\",\r\n  \"address\": \"Degree Bottola, Pabna, Bangladesh\",\r\n  \"citizenId\": \"4ab22f45-f498-4a8a-bedb-f0804273892a\",\r\n  \"categoryId\": \"2b8bd7b3-181d-4ee0-a1cc-29b8ef81f0d5\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "admin all complaint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Damaged Road in Shalgaria\",\r\n    \"description\": \"The road has several large potholes, making it difficult and unsafe for vehicles and pedestrians.\",\r\n    \"address\": \"Shalgaria, Pabna, Bangladesh\",\r\n    \"citizenId\": \"4ab22f45-f498-4a8a-bedb-f0804273892a\",\r\n    \"categoryId\": \"2b8bd7b3-181d-4ee0-a1cc-29b8ef81f0d5\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "My all complaint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/complaint/me/4ab22f45-f498-4a8a-bedb-f0804273892a",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "me",
+                "4ab22f45-f498-4a8a-bedb-f0804273892a"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get single complaint",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Damaged Road in Shalgaria\",\r\n    \"description\": \"The road has several large potholes, making it difficult and unsafe for vehicles and pedestrians.\",\r\n    \"address\": \"Shalgaria, Pabna, Bangladesh\",\r\n    \"citizenId\": \"4ab22f45-f498-4a8a-bedb-f0804273892a\",\r\n    \"categoryId\": \"2b8bd7b3-181d-4ee0-a1cc-29b8ef81f0d5\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint/6bfb8369-3f3c-4b2d-bc8a-c032effe6738",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "6bfb8369-3f3c-4b2d-bc8a-c032effe6738"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update complaint",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"Damaged Road in Shalgariallllll.0\",\r\n    \"description\": \"The road has several large potholes, making it difficult and unsafe for vehicles and pedestrians.\",\r\n    \"address\": \"Shalgaria, Pabna, Bangladesh\",\r\n    \"citizenId\": \"4ab22f45-f498-4a8a-bedb-f0804273892a\",\r\n    \"categoryId\": \"2b8bd7b3-181d-4ee0-a1cc-29b8ef81f0d5\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint/update/6bfb8369-3f3c-4b2d-bc8a-c032effe6738",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "update",
+                "6bfb8369-3f3c-4b2d-bc8a-c032effe6738"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "item": [
+        {
+          "name": "create payment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"complaintId\": \"dfd2432c-29ee-4da3-82c6-a009fe419b6b\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/payment/create",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "payment",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dept. Staff",
+      "item": [
+        {
+          "name": "get staff assigmnet",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint/staff",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "staff"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update stats by staff",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"IN_PROGRESS\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/complaint/staff/3cba8b9d-f505-45bc-aaa7-32b7cd6a0861",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "complaint",
+                "staff",
+                "3cba8b9d-f505-45bc-aaa7-32b7cd6a0861"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
